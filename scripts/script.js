@@ -19,17 +19,32 @@ try {
     })
     .then((json) => {
         console.log(json);
-
         data = json.products;
 
         // Assuming data is an array of objects
         const contentDiv = document.getElementsByClassName('container')[0];
 
         data.forEach(product => {
+            const boxDiv = document.createElement('div');
+            boxDiv.className = "box";
+
             const productDiv = document.createElement('div');
             productDiv.className = "products";
-            productDiv.textContent = `Product: ${product.title}, Price: ${product.price}`;
-            contentDiv.appendChild(productDiv);
+
+            let thumbnail = product.images.filter((link) => link.includes("thumbnail"));
+            thumbnail = thumbnail.length == 0 ? product.images[0] : thumbnail[0];
+            
+            productDiv.innerHTML = `
+                <img src="${thumbnail}" alt="${product.title}" />
+                <p class="price">Price: ${product.price}</p>
+                <p class="price">Discount: ${product.discountPercentage}%</p>
+                <h2>${product.title}</h2>
+                <p>Category: ${product.category}</p>
+                <p>Stock: ${product.stock}</p>
+            `
+
+            contentDiv.appendChild(boxDiv);
+            boxDiv.appendChild(productDiv);
         });
 
     }).catch(error => {
