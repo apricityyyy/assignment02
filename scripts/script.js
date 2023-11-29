@@ -8,53 +8,65 @@ const signal = controller.signal;
 setTimeout(() => controller.abort(), 1000);
 
 try {
-    fetch('https://dummyjson.com/products', {signal})
-    .then(res => {
-        // When the network status code is not in the range 200 to 299
-        if (!res.ok) {
-            throw new Error(`${res.status} ${res.statusText}`);
-        }
+    fetch('https://dummyjson.com/products', { signal })
+        .then(res => {
+            // When the network status code is not in the range 200 to 299
+            if (!res.ok) {
+                throw new Error(`${res.status} ${res.statusText}`);
+            }
 
-        return res.json();
-    })
-    .then((json) => {
-        console.log(json);
-        data = json.products;
+            return res.json();
+        })
+        .then((json) => {
+            console.log(json);
+            data = json.products;
 
-        // Assuming data is an array of objects
-        const contentDiv = document.getElementsByClassName('container')[0];
+            const contentDiv = document.getElementsByClassName('container')[0];
 
-        data.forEach(product => {
-            const boxDiv = document.createElement('div');
-            boxDiv.className = "box";
+            data.forEach(product => {
+                console.log(product.title);
 
-            const productDiv = document.createElement('div');
-            productDiv.className = "products";
+                const boxDiv = document.createElement('div');
+                boxDiv.className = "box";
 
-            let thumbnail = product.images.filter((link) => link.includes("thumbnail"));
-            thumbnail = thumbnail.length == 0 ? product.images[0] : thumbnail[0];
-            
-            productDiv.innerHTML = `
+                const productDiv = document.createElement('div');
+                productDiv.className = "products";
+
+                const link = document.createElement('a');
+                link.src = "./product.html";
+                link.target = "_blank";
+
+                let thumbnail = product.images.filter((link) => link.includes("thumbnail"));
+                thumbnail = thumbnail.length == 0 ? product.images[product.images.length - 1] : thumbnail[0];
+
+                productDiv.innerHTML = `
                 <img src="${thumbnail}" alt="${product.title}" />
-                <p class="price">Price: ${product.price}</p>
-                <p class="price">Discount: ${product.discountPercentage}%</p>
+                <p class="price" id="percentage">-${product.discountPercentage}% ⚡</p>
+                <p class="price">$${product.price}</p>
                 <h2>${product.title}</h2>
-                <p>Category: ${product.category}</p>
-                <p>Stock: ${product.stock}</p>
+                <p>${product.category}</p>
+                <p>${product.stock} left!</p>
             `
 
-            contentDiv.appendChild(boxDiv);
-            boxDiv.appendChild(productDiv);
-        });
+                // Add an event listener to the product div
+                productDiv.addEventListener('click', () => {
+                    // Set the new URL when the product is clicked
+                    window.open(`./public/product.html?productId=${product.id}`, '_blank');
+                });
 
-    }).catch(error => {
-        console.error('Error fetching data:', error);
-    });
+                contentDiv.appendChild(boxDiv);
+                boxDiv.appendChild(link);
+                link.appendChild(productDiv);
+            });
+
+        }).catch(error => {
+            console.error('Error fetching data:', error);
+        });
 } catch (Error) {
     console.log("Error: " + Error);
 }
 
-class Product{
+class Product {
     constructor(title, price, discount, category, stock, thumbnail) {
         this.title = title;
         this.price = price;

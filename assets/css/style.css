@@ -1,5 +1,5 @@
 body {
-    background-color: #FAF0E6;
+    background-color: #e6effa;
 }
 
 h1 {
@@ -11,19 +11,19 @@ h1 {
 
 .price {
     color: #AF2655;
-    font-family: 'Quicksand', sans-serif;
     font-weight: 600;
-    padding-left: 10px;
 }
 
-h2 {
+h2, p {
     font-family: 'Quicksand', sans-serif;
     padding-left: 10px;
     color: #352F44;
 }
 
 .products {
-    border: 1px black solid;
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 10px #888888;
     width: 300px;
     height: auto;
     margin: 50px;
@@ -38,10 +38,22 @@ h2 {
 
 img {
     width: 290px;
-    height: auto;
+    height: 400px;
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
+    object-fit: contain;
+}
+
+#percentage {
+    border-radius: 10px;
+    padding-top: 5px;
+    background-color: rgb(196, 206, 255);
+    width: 6rem;
+    height: 2rem;
+    position: relative;
+    top: -25em;
+    z-index: 5;
 }
