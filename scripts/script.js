@@ -40,13 +40,13 @@ try {
                 thumbnail = thumbnail.length == 0 ? product.images[product.images.length - 1] : thumbnail[0];
 
                 productDiv.innerHTML = `
-                <img src="${thumbnail}" alt="${product.title}" />
+                <img src="${thumbnail}" alt="${product.title}" class="thumbnail" />
                 <p class="price" id="percentage">-${product.discountPercentage}% ⚡</p>
                 <p class="price">$${product.price}</p>
                 <h2>${product.title}</h2>
                 <p>${product.category}</p>
                 <p>${product.stock} left!</p>
-            `
+                `
 
                 // Add an event listener to the product div
                 productDiv.addEventListener('click', () => {
