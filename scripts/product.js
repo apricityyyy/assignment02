@@ -31,39 +31,46 @@ try {
             main = main.length == 0 ? product.images[product.images.length - 1] : main[0];
             console.log(main);
             mainImage.innerHTML = `
-            <img src="${main}" alt="${product.title}" />
+            <img src="${main}" alt="${product.title}" id="mainimageid" />
             `;
 
             let sideImages = document.querySelector('#side-images');
-            let side = product.images.filter((link) => link != main);
+            let side = product.images;
             console.log(side);
+
             let cnt = side.length;
-            while (cnt != 0) {
+            while (cnt !== 0) {
                 let newImg = document.createElement('img');
                 newImg.src = side[cnt - 1];
                 newImg.alt = product.title;
-                newImg.className = "side-images-below"
+                newImg.className = "side-images-below";
                 sideImages.appendChild(newImg);
-                cnt--;
+                cnt--; // Move the decrement here
             }
 
             // Handle the click event on side images
             sideImages.addEventListener('click', function (event) {
-                    // Swap main image with the clicked side image
-                    mainImage.innerHTML = event.target.outerHTML;
-
-                    // Swap clicked side image with the main image
-                    event.target.src = mainImage.querySelector('img').src;
+                let mainImg = document.getElementById('mainimageid');
+                mainImg.src = event.target.src;
             });
 
-            //     productDiv.innerHTML = `
-            //     <img src="${thumbnail}" alt="${product.title}" class="thumbnail" />
-            //     <p class="price" id="percentage">-${product.discountPercentage}% ⚡</p>
-            //     <p class="price">$${product.price}</p>
-            //     <h2>${product.title}</h2>
-            //     <p>${product.category}</p>
-            //     <p>${product.stock} left!</p>
-            // `
+            let description =  document.querySelector('#product-description')
+
+            let priceEl = document.createElement('h2');
+            priceEl.textContent = "$" + product.price;
+            priceEl.className = 'price';
+            priceEl.style = "padding-left: 0";
+            description.appendChild(priceEl);
+
+            let categoryEl = document.createElement('p');
+            categoryEl.innerHTML = "<b>Category:</b> product.category";
+            categoryEl.style = "padding-left: 0";
+            description.appendChild(categoryEl);
+
+            let stockEl = document.createElement('p');
+            stockEl.innerHTML = `${product.stock} items are left. If you want to order, click <a href="">Shop now!</a>`;
+            stockEl.style = "padding-left: 0";
+            description.appendChild(stockEl);
         })
 } catch (Error) {
     console.log("Error: " + Error);
