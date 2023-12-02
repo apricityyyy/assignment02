@@ -63,12 +63,12 @@ try {
             description.appendChild(priceEl);
 
             let categoryEl = document.createElement('p');
-            categoryEl.innerHTML = "<b>Category:</b> product.category";
+            categoryEl.innerHTML = `<b>Category:</b> ${product.category}`;
             categoryEl.style = "padding-left: 0";
             description.appendChild(categoryEl);
 
             let stockEl = document.createElement('p');
-            stockEl.innerHTML = `${product.stock} items are left. If you want to order, click <a href="">Shop now!</a>`;
+            stockEl.innerHTML = `${product.stock} items are left. If you want to order, click <a href="#addtocart">Add to Cart</a>.`;
             stockEl.style = "padding-left: 0";
             description.appendChild(stockEl);
         })
