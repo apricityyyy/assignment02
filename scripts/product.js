@@ -11,6 +11,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get('productId');
 
 try {
+    // Getting the product from its id
     fetch(`https://dummyjson.com/products/${productId}`, { signal })
         .then(res => {
             // When the network status code is not in the range 200 to 299
@@ -23,21 +24,20 @@ try {
         .then(json => {
             let product = json;
 
+            // Dynamic title creation
             document.querySelector('title').textContent = product.title;
             document.querySelector('#product-title').innerHTML = product.title;
 
+            // Dynamic main image creation
             let mainImage = document.querySelector('#main-image')
-            let main = product.images.filter((link) => link.includes("thumbnail"));
-            main = main.length == 0 ? product.images[product.images.length - 1] : main[0];
-            console.log(main);
+            let main = product.thumbnail;
             mainImage.innerHTML = `
             <img src="${main}" alt="${product.title}" id="mainimageid" />
             `;
 
+            // Dynamic side images creation
             let sideImages = document.querySelector('#side-images');
             let side = product.images;
-            console.log(side);
-
             let cnt = side.length;
             while (cnt !== 0) {
                 let newImg = document.createElement('img');
@@ -45,7 +45,7 @@ try {
                 newImg.alt = product.title;
                 newImg.className = "side-images-below";
                 sideImages.appendChild(newImg);
-                cnt--; // Move the decrement here
+                cnt--;
             }
 
             // Handle the click event on side images
@@ -54,6 +54,7 @@ try {
                 mainImg.src = event.target.src;
             });
 
+            // Dynamic descriptive properties creation
             let description =  document.querySelector('#product-description')
 
             let priceEl = document.createElement('h2');
@@ -66,6 +67,11 @@ try {
             categoryEl.innerHTML = `<b>Category:</b> ${product.category}`;
             categoryEl.style = "padding-left: 0";
             description.appendChild(categoryEl);
+
+            let descEl = document.createElement('p');
+            descEl.innerHTML = `${product.description}`;
+            descEl.style = "padding-left: 0";
+            description.appendChild(descEl);
 
             let stockEl = document.createElement('p');
             stockEl.innerHTML = `${product.stock} items are left. If you want to order, click <a href="#addtocart">Add to Cart</a>.`;

@@ -21,6 +21,12 @@ p {
     color: #352F44;
 }
 
+.container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
 .products {
     border: 1px solid;
     padding: 10px;
@@ -31,10 +37,9 @@ p {
     background-color: white;
 }
 
-.container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+.products:hover {
+    border: 3px solid #304e73;
+    box-shadow: none;
 }
 
 img.thumbnail {
@@ -133,7 +138,6 @@ img {
     width: 80%;
 }
 
-/* Style the search box inside the navigation bar */
 .search-bar input[type=text] {
     padding: 6px;
     border: none;
@@ -171,4 +175,32 @@ img {
 .display-data {
     display: flex;
     justify-content: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+}
+
+.pagination a.active {
+    background-color: #304e73;
+    color: white;
+    border: 1px solid #304e73;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
 }
