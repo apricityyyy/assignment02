@@ -1,9 +1,15 @@
 let data = [];
-let needed_data = []; 
+let needed_data = [];
 
 // Beginning page number
 let currentPage = 1;
 const productsPerPage = 10;
+
+// Determining if the search is called
+let searchFlag = false;
+
+// Creating search data for keeping track of searched products
+let search_data = []; 
 
 // When the request is cancelled before it is complete
 const controller = new AbortController();
@@ -75,11 +81,11 @@ try {
 
             function updatePagination() {
                 const totalPages = Math.ceil(data.length / productsPerPage);
-                const paginationDiv = document.getElementByClassName('pagination');
+                const paginationDiv = document.getElementsByClassName('pagination')[0];
                 paginationDiv.innerHTML = ''; // Renew the div before locating new products per page
 
                 for (let i = 1; i <= totalPages; i++) {
-                    const pageButton = document.createElement('button');
+                    const pageButton = document.createElement('a');
                     pageButton.textContent = i; // "Buttons" that show each page
                     pageButton.id = `order${i}`; // For tracking which page is activated
 
@@ -91,8 +97,8 @@ try {
                             button.classList.remove('active');
                         });
 
-                    // Add 'active' class to the clicked button
-                    pageButton.classList.add('active');
+                        // Add 'active' class to the clicked button
+                        pageButton.classList.add('active');
 
                     });
 
@@ -110,7 +116,10 @@ try {
             updatePagination();
 
             function searchTheProduct() {
+                searchFlag = true;
                 let inputEl = document.getElementById('search');
+                let filterInputEl = document.getElementById('category');
+                filterInputEl.value = '--';  // Reset the filter option when search is called
 
                 needed_data.forEach(product => {
                     // Convert the search criteria to lowercase for case-insensitive comparison
@@ -125,42 +134,54 @@ try {
                         if (boxDiv) {
                             boxDiv.style.display = "none";
                         }
+
+                        search_data = search_data.filter(function (item) {
+                            return item !== product;
+                        })
                     } else {
                         // If found, show the corresponding product
                         let boxDiv = document.getElementById(`"${product.id}"`);
                         if (boxDiv) {
                             boxDiv.style.display = "block";
                         }
+                        search_data.push(product);
                     }
                 });
+
+                console.log("Search_data", search_data);
+                // Depending on user's choice, filter function is called
+                filterTheProduct(search_data);
             }
 
-            function filterTheProduct() {
+            function filterTheProduct(filter_data) {
+                console.log("Filter_data", filter_data);
                 let inputEl = document.getElementById('category');
 
                 // If the input element is not default
-                if (inputEl.value !== "--") {
-                    needed_data.forEach(product => {
+                if (inputEl.value !== "--" && inputEl.value !== "all") {
+                    filter_data.forEach(product => {
                         let filterData = inputEl.value;
                         let productData = product.category
 
-                        if (productData !== filterData) {
-                            // If not found, hide the corresponding product
-                            let boxDiv = document.getElementById(`"${product.id}"`);
-                            if (boxDiv) {
-                                boxDiv.style.display = "none";
-                            }
-                        } else {
-                            // If found, show the corresponding product
-                            let boxDiv = document.getElementById(`"${product.id}"`);
-                            console.log("boxDiv: " + boxDiv);
+                        // Check if the product satisfies both search and filter criteria
+                        let boxDiv = document.getElementById(`"${product.id}"`);
+                        let searchCriteriaMet = inputEl.value === '--' || productData.toLowerCase().includes(inputEl.value.toLowerCase());
+                        let filterCriteriaMet = productData === filterData;
+
+                        if (searchCriteriaMet && filterCriteriaMet) {
+                            // If the product satisfies both criteria, show it
                             if (boxDiv) {
                                 boxDiv.style.display = "block";
                             }
+                        } else {
+                            // If not, hide the corresponding product
+                            if (boxDiv) {
+                                boxDiv.style.display = "none";
+                            }
                         }
                     });
-                } else { // Show all the products per page if the default option is selected
-                    needed_data.forEach(product => {
+                } else if (inputEl.value == "all") { // Show all the products per page if "all" option is selected
+                    filter_data.forEach(product => {
                         let boxDiv = document.getElementById(`"${product.id}"`);
                         boxDiv.style.display = "block";
                     })
@@ -176,8 +197,12 @@ try {
                 }
             });
 
+            console.log("Needed_data", needed_data);
             // Depending on user's choice, filter function is called
-            $(".select-box").on('click', filterTheProduct);
+            $(".select-box").on('click', () => {
+                if (!searchFlag) filterTheProduct(needed_data);
+                else filterTheProduct(search_data);
+            });
         }).catch(error => {
             console.error('Error fetching data:', error);
         });
