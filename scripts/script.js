@@ -18,16 +18,14 @@ try {
             return res.json();
         })
         .then((json) => {
-            console.log(json);
             data = json.products;
 
             const contentDiv = document.getElementsByClassName('container')[0];
 
             data.forEach(product => {
-                console.log(product.title);
-
                 const boxDiv = document.createElement('div');
                 boxDiv.className = "box";
+                boxDiv.id = `"${product.id}"`;
 
                 const productDiv = document.createElement('div');
                 productDiv.className = "products";
@@ -59,6 +57,71 @@ try {
                 link.appendChild(productDiv);
             });
 
+            function searchTheProduct() {
+                let inputEl = document.getElementById('search');
+            
+                data.forEach(product => {
+                    // Convert the search criteria to lowercase for case-insensitive comparison
+                    let lowercaseSearch = inputEl.value.toLowerCase();
+                    let productData = [product.title, product.description, product.category].map(item => item.toLowerCase());
+            
+                    // Check if the lowercase search term is included in any of the lowercase product data
+                    if (!productData.some(item => item.includes(lowercaseSearch))) {
+                        // If not found, hide the corresponding product
+                        let boxDiv = document.getElementById(`"${product.id}"`);
+                        if (boxDiv) {
+                            boxDiv.style.display = "none";
+                        }
+                    } else {
+                        // If found, show the corresponding product
+                        let boxDiv = document.getElementById(`"${product.id}"`);
+                        if (boxDiv) {
+                            boxDiv.style.display = "block";
+                        }
+                    }
+                });
+            }
+
+            function filterTheProduct() {
+                let inputEl = document.getElementById('category');
+                console.log(inputEl.value);
+            
+                if (inputEl.value !== "--") {
+                    data.forEach(product => {
+                        let searchData = inputEl.value;
+                        console.log(searchData)
+                        let productData = product.category
+                
+                        // Check if the lowercase search term is included in any of the lowercase product data
+                        if (productData !== searchData) {
+                            // If not found, hide the corresponding product
+                            let boxDiv = document.getElementById(`"${product.id}"`);
+                            console.log("boxDiv: " + boxDiv);
+                            if (boxDiv) {
+                                boxDiv.style.display = "none";
+                            }
+                        } else {
+                            // If found, show the corresponding product
+                            let boxDiv = document.getElementById(`"${product.id}"`);
+                            console.log("boxDiv: " + boxDiv);
+                            if (boxDiv) {
+                                boxDiv.style.display = "block";
+                            }
+                        }
+                    });
+                } else {
+                    data.forEach(product => {
+                        let boxDiv = document.getElementById(`"${product.id}"`);
+                        boxDiv.style.display = "block";
+                    })
+                }                
+            }
+            
+            let buttonEl = document.getElementById("search-button");
+            buttonEl.addEventListener('click', searchTheProduct);
+            
+            let selectBoxDiv = document.querySelector(".select-box");
+            selectBoxDiv.addEventListener('click', filterTheProduct);
         }).catch(error => {
             console.error('Error fetching data:', error);
         });

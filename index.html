@@ -9,11 +9,33 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2&family=Montserrat:wght@400;600&family=Quicksand:wght@400;600&family=Raleway&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2&family=Montserrat:wght@400;600&family=Quicksand:wght@400;600&family=Raleway&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-    <h1>Choose Your Product!</h1>
+    <h1>Explore the Products</h1>
+
+    <div class="display-data">
+        <div class="select-box">
+            <!-- <label for="category">Categories</label> -->
+            <select name="category" id="category">
+                <option value="--">--</option>
+                <option value="smartphones">Smartphones</option>
+                <option value="laptops">Laptops</option>
+                <option value="fragrances">Fragrances</option>
+                <option value="skincare">Skincare</option>
+                <option value="groceries">Groceries</option>
+                <option value="home-decoration">Home Decoration</option>
+            </select>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Enter the product, category or description..." name="search" id="search">
+            <button type="submit" id="search-button"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
     <div class="container"></div>
 </body>
 
