@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
-    <script src="./scripts/script.js"></script>
     <link rel="icon" href="./assets/icons/icon.svg" />
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +12,6 @@
         href="https://fonts.googleapis.com/css2?family=Exo+2&family=Montserrat:wght@400;600&family=Quicksand:wght@400;600&family=Raleway&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -30,6 +28,20 @@
                 <option value="skincare">Skincare</option>
                 <option value="groceries">Groceries</option>
                 <option value="home-decoration">Home Decoration</option>
+                <option value="furniture">Furniture</option>
+                <option value="tops">Tops</option>
+                <option value="womens-dresses">Women's Dresses</option>
+                <option value="womens-shoes">Women's Shoes</option>
+                <option value="mens-shirts">Men's Shirts</option>
+                <option value="mens-shoes">Men's Shoes</option>
+                <option value="mens-watches">Men's Watches</option>
+                <option value="womens-watches">Women's Watches</option>
+                <option value="womens-bags">Women's Bags</option>
+                <option value="womens-jewellery">Women's Jewellery</option>
+                <option value="sunglasses">Sunglasses</option>
+                <option value="automotive">Automotive</option>
+                <option value="motorcycle">Motorcycle</option>
+                <option value="lighting">Lighting</option>
             </select>
         </div>
         <div class="search-bar">
@@ -38,11 +50,20 @@
         </div>
     </div>
 
+    <div class="error-section">
+        <img id="err-icon" />
+    </div>
+
     <div class="container"></div>
 
     <div class="center">
         <div class="pagination"></div>
     </div>
+
+    <button class="scrollToTopBtn">TOP</button>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="./scripts/script.js"></script>
 </body>
 
 </html>
